@@ -97,7 +97,6 @@ def get_dataloader(mode, train=True, train_prop=0.9, batch_size=32, shuffle=True
     random.seed(seed)
     torch.manual_seed(seed)
 
-
     file_lst = list(pd.read_csv('label.csv')['file_list'])
     file_lst_train = random.sample(file_lst, int(train_prop * len(file_lst)))
     file_lst_val = [file for file in file_lst if file not in file_lst_train]
