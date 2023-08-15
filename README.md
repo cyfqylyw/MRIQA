@@ -8,7 +8,7 @@
 
 ## Usage
 
-### Data augmentation and Fourlier transform
+### Data augmentation and Fourlier transformation
 
 Use `transform.py` to perform data augmentation and Fourlier transform.
 
