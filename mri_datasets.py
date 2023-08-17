@@ -85,7 +85,7 @@ class MRI_Dataset_Fourlier(Dataset):
         return torch.tensor(fourlier_data_1), torch.tensor(fourlier_data_2)
 
 
-def get_dataloader(mode, args, train=True, train_prop=0.9, shuffle=True):
+def get_dataloader(mode, batch_size, seed=42, train=True, train_prop=0.9, shuffle=False):
     """
     return DataLoader based on the input parameters 
     :param mode: one choise from ['origin', 'augmentation', 'fourlier'], apply the three Dataset above respectively
@@ -94,8 +94,8 @@ def get_dataloader(mode, args, train=True, train_prop=0.9, shuffle=True):
     :param batch_size: batch size
     :param shuffle: whether shuffle or not
     """
-    random.seed(args.seed)
-    torch.manual_seed(args.seed)
+    random.seed(seed)
+    torch.manual_seed(seed)
 
     file_lst = list(pd.read_csv('label.csv')['file_list'])
     file_lst_train = random.sample(file_lst, int(train_prop * len(file_lst)))
@@ -112,6 +112,6 @@ def get_dataloader(mode, args, train=True, train_prop=0.9, shuffle=True):
         raise TypeError("mode is not valid")
 
     sampler = torch.utils.data.distributed.DistributedSampler(dataset)
-    dataloader = DataLoader(dataset, batch_size=args.batch_size, shuffle=shuffle, sampler=sampler)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=shuffle, sampler=sampler)
 
     return dataloader
