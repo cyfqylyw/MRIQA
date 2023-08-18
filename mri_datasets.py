@@ -80,8 +80,8 @@ class MRI_Dataset_Fourlier(Dataset):
 
     def __getitem__(self, idx):
         filename = get_filename(file_path=self.file_lst[idx])
-        fourlier_data_1 = np.load('datasets/fourlier_data_1/' + filename)
-        fourlier_data_2 = np.load('datasets/fourlier_data_2/' + filename)
+        fourlier_data_1 = np.load('datasets/fourlier_data_1/' + filename).reshape((3, 156,156,64)).astype(np.float32)
+        fourlier_data_2 = np.load('datasets/fourlier_data_2/' + filename).reshape((3, 156,156,64)).astype(np.float32)
         return torch.tensor(fourlier_data_1), torch.tensor(fourlier_data_2)
 
 
