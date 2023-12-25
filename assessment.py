@@ -64,22 +64,43 @@ if __name__ == '__main__':
     mode = args.mode
     batch_size = args.batch_size
     proj_dim = args.projection_dim
-    model_path = 'models/model_' + mode + '_b' + str(batch_size) + '_p' + str(proj_dim) + '_e100_lr0.001.pt'
-    # model_path = 'models/model_augmentation_b32_p128_e100_lr0.001.pt'
-    print(model_path)
 
-    data_type = 'origin_data' if 'augmentation' in model_path else 'fourlier_origin_data'
-    generate_features(model_path=model_path, data_type=data_type)
-    merge_features(model_path=model_path, data_type=data_type)
+    if mode == 'combined':
+        model_path_1 = 'models/model_augmentation_b' + str(batch_size) + '_p' + str(proj_dim) + '_e100_lr0.001.pt'
+        data_type_1 = 'origin_data' if 'augmentation' in model_path_1 else 'fourlier_origin_data'
+        model_short_name_1 = '.'.join(model_path_1.split('/')[-1].split('.')[:-1])
+        print('datasets/' + data_type_1 +  '_features/all_data_' + model_short_name_1 + '.npy')
+        all_features_1 = np.load('datasets/' + data_type_1 +  '_features/all_data_' + model_short_name_1 + '.npy')
+    
+        model_path_2 = 'models/model_fourlier_b' + str(batch_size) + '_p' + str(proj_dim) + '_e100_lr0.001.pt'
+        data_type_2 = 'origin_data' if 'augmentation' in model_path_2 else 'fourlier_origin_data'
+        model_short_name_2 = '.'.join(model_path_2.split('/')[-1].split('.')[:-1])
+        all_features_2 = np.load('datasets/' + data_type_2 +  '_features/all_data_' + model_short_name_2 + '.npy')
+    
+        labels = list(pd.read_csv('label.csv')['label'])
+        df1 = pd.DataFrame(all_features_1, columns=['a' + str(x) for x in range(all_features_1.shape[1])])
+        df2 = pd.DataFrame(all_features_2, columns=['f' + str(x) for x in range(all_features_2.shape[1])])
+        df3 = pd.DataFrame(labels, columns=['label'])
+        df = pd.concat([df1, df2, df3], axis=1)
+        
+    else:
+        model_path = 'models/model_' + mode + '_b' + str(batch_size) + '_p' + str(proj_dim) + '_e100_lr0.001.pt'
+        # model_path = 'models/model_augmentation_b32_p128_e100_lr0.001.pt'
+        print(model_path)
+    
+        data_type = 'origin_data' if 'augmentation' in model_path else 'fourlier_origin_data'
+        generate_features(model_path=model_path, data_type=data_type)
+        merge_features(model_path=model_path, data_type=data_type)
+    
+        # Load data
+        model_short_name = '.'.join(model_path.split('/')[-1].split('.')[:-1])
+        all_features = np.load('./datasets/' + data_type +  '_features/all_data_' + model_short_name + '.npy')
+        labels = list(pd.read_csv('label.csv')['label'])
 
-    # # Load data
-    model_short_name = '.'.join(model_path.split('/')[-1].split('.')[:-1])
-    all_features = np.load('./datasets/' + data_type +  '_features/all_data_' + model_short_name + '.npy')
-    labels = list(pd.read_csv('label.csv')['label'])
+        df1 = pd.DataFrame(all_features, columns=['f' + str(x) for x in range(all_features.shape[1])])
+        df2 = pd.DataFrame(labels, columns=['label'])
+        df = pd.concat([df1, df2], axis=1)
 
-    df1 = pd.DataFrame(all_features, columns=['f' + str(x) for x in range(all_features.shape[1])])
-    df2 = pd.DataFrame(labels, columns=['label'])
-    df = pd.concat([df1, df2], axis=1)
 
     df_train, df_test = train_test_split(df, test_size=0.3, random_state=42)
     train_data = TabularDataset(df_train)
