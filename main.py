@@ -206,9 +206,10 @@ def main(local_rank, args, results):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     np.random.seed(args.seed)
-    
-    train_dl = get_dataloader(mode=args.mode, batch_size=args.batch_size, seed=args.seed, train=True)
-    valid_dl = get_dataloader(mode=args.mode, batch_size=args.batch_size, seed=args.seed, train=False)
+
+    batch_size = int(args.batch_size / args.nprocs)
+    train_dl = get_dataloader(mode=args.mode, batch_size=batch_size, seed=args.seed, train=True)
+    valid_dl = get_dataloader(mode=args.mode, batch_size=batch_size, seed=args.seed, train=False)
     encoder = Encoder3D(projection_dim=args.projection_dim) if args.mode == 'augmentation' else Encoder3D_fourlier(projection_dim=args.projection_dim)
     model = SimCLR(encoder=encoder, projection_dim=args.projection_dim)
     model = model.cuda(local_rank)
