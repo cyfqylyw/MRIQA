@@ -49,7 +49,7 @@ MRIQA
             |_ sub-21658
 ```
 
-All these datasets can be obtained from the [OpenfMRI database](https://openfmri.org/), with accession number ds000030, ds000115, ds000158, ds000201, ds000202, ds000228, ds000243 and ds000258. 
+All these datasets can be obtained from the [OpenfMRI database](https://openfmri.org/dataset/), with accession number ds000030, ds000115, ds000158, ds000201, ds000202, ds000228, ds000243 and ds000258. 
 
 `label.csv` will be released after the paper is accepted.
 
