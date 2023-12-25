@@ -2,6 +2,8 @@
 
 Official code implementation of **Contrastive Representation in Spatial and Frequency Domains for No-Reference Magnetic Resonance Image Quality Assessment**
 
+<div align=center><img src="./figs/model.png"></div>
+
 ## Requirements:
 - numpy==1.23.4
 - torch==1.13.1
@@ -54,32 +56,36 @@ All these datasets can be obtained from the [OpenfMRI database](https://openfmri
 
 ## Usage
 
-### Data augmentation and Fourier transformation
+### Stage I: (1) Data augmentation and Fourier transformation
 Command to perform data augmentation and Fourier transform.
 ```
 python transform.py
 ```
 
-### Train representation learning
-Command to train for feature representation in SPATIAL domain:
+### Stage I: (2) Train representation learning
+- For feature representation in SPATIAL domain:
 ```
-python main.py --mode="augmentation" --batch_size=32 --projection_dim=128 --epochs=100
+python main.py --mode="augmentation" --batch_size=256 --projection_dim=128 --epochs=100
 ```
 
-Command to train for feature representation in FREQUENCY domain:
+- For feature representation in FREQUENCY domain:
 ```
-python main.py --mode="fourier" --batch_size=32 --projection_dim=128 --epochs=100
+python main.py --mode="fourier" --batch_size=256 --projection_dim=128 --epochs=100
 ```
 
 Feel free to change the value of batch size and projection dimention.
 
-### Assessment for representations
+### Stage II: Combination for downstream QA
 Command to conduct quality and representation assessment:
 - For SPATIAL domain representations:
 ```
-python assessment.py --mode="augmentation"  --batch_size=32 --projection_dim=128
+python assessment.py --mode="augmentation"  --batch_size=256 --projection_dim=128
 ```
 - For FREQUENCY domain representations:
 ```
-python assessment.py --mode="fourier"  --batch_size=32 --projection_dim=128
+python assessment.py --mode="fourier"  --batch_size=256 --projection_dim=128
+```
+- For DUAL domain representations:
+```
+python assessment.py --mode="combined"  --batch_size=256 --projection_dim=128
 ```
