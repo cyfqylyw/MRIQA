@@ -65,12 +65,12 @@ python transform.py
 ### Stage I: (2) Train representation learning
 - For feature representation in SPATIAL domain:
 ```
-python main.py --mode="augmentation" --batch_size=256 --projection_dim=128 --epochs=100
+python main.py --mode="augmentation" --batch_size=256 --projection_dim=128 --epochs=100 --learning_rate=0.001 --temperature=0.9
 ```
 
 - For feature representation in FREQUENCY domain:
 ```
-python main.py --mode="fourier" --batch_size=256 --projection_dim=128 --epochs=100
+python main.py --mode="fourier" --batch_size=256 --projection_dim=128 --epochs=100 --learning_rate=0.001 --temperature=0.9
 ```
 
 Feel free to change the value of batch size and projection dimention.
