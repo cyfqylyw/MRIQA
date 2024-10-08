@@ -87,3 +87,19 @@ python assessment.py --mode="fourier"  --batch_size=256 --projection_dim=128
 ```
 python assessment.py --mode="combined"  --batch_size=256 --projection_dim=128
 ```
+
+## Citation
+
+```
+@INPROCEEDINGS{10687481,
+  author={Lou, Yiwei and Zhang, Jiayu and Xu, Dexuan and Cao, Yongzhi and Wang, Hanpin and Huang, Yu},
+  booktitle={2024 IEEE International Conference on Multimedia and Expo (ICME)}, 
+  title={No-Reference MRI Quality Assessment via Contrastive Representation: Spatial and Frequency Domain Perspectives}, 
+  year={2024},
+  volume={},
+  number={},
+  pages={1-6},
+  keywords={Image quality;Magnetic resonance imaging;Frequency-domain analysis;Magnetic resonance;Focusing;Contrastive learning;Feature extraction;MRI quality assessment;representation learning;contrastive learning;spatial and frequency domains},
+  doi={10.1109/ICME57554.2024.10687481}
+}
+```
